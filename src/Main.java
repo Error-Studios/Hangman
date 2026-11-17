@@ -1,7 +1,13 @@
 // Holden Briggs
+//The
 //
-//
+ // Credits to Bro Code for much of the code
 
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,7 +15,26 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        String word = "pizza";
+        String filePath = "words.txt";
+        ArrayList<String> words = new ArrayList<>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
+            String line;
+            while((line = reader.readLine()) != null){
+                words.add(line.trim());
+            }
+        }
+        catch (FileNotFoundException e){
+            System.out.println("Could not find file");
+        }
+        catch (IOException e) {
+            System.out.println("Something went wrong");
+        }
+
+        Random random = new Random();
+
+        String word = words.get(random.nextInt(words.size()));
+
         Scanner scanner = new Scanner(System.in);
         ArrayList<Character> wordState = new ArrayList<>();
         int incorrectGuesses = 0;
