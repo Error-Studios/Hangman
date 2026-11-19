@@ -1,7 +1,7 @@
 // Holden Briggs
-//The
+// The purpose of the code is too
 //
- // Credits to Bro Code for much of the code
+ // Credits to Bro Code on YouTube for much of the code
 
 
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        String filePath = "words.txt";
+        String filePath = "src/words.txt";
         ArrayList<String> words = new ArrayList<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
@@ -45,9 +45,12 @@ public class Main {
         System.out.println("*******************");
         System.out.println("Welcome to Hangman!");
         System.out.println("*******************");
+        int wins = 0;
+        int losses = 0;
 
-        while (incorrectGuesses < 6) {
+        boolean gameOn = true;
 
+        while (gameOn == true) {
             System.out.print(getHangmanArt(incorrectGuesses));
 
             System.out.print("Word: ");
@@ -71,8 +74,9 @@ public class Main {
                     if(!wordState.contains('_')){
                         System.out.println(getHangmanArt(incorrectGuesses));
                         System.out.println("YOU WIN!");
-                        System.out.println("The word was" + word);
-                        break;
+                        System.out.println("The word was " + word);
+                        wins ++;
+                        gameOn = false;
 
                     }
                 }
@@ -86,9 +90,30 @@ public class Main {
             System.out.print(getHangmanArt(incorrectGuesses));
             System.out.println("GAME OVER!");
             System.out.println("The word was: " + word);
+            losses ++;
+            gameOn = false;
+
         }
-        scanner.close();
+        while (!gameOn) {
+            incorrectGuesses = 0;
+            System.out.println("Do you want to play again?");
+            String playAgain = scanner.next().toLowerCase();
+            if (playAgain.equals("yes")) {
+                gameOn = true;
+
+            } else if (playAgain.equals("no")) {
+                System.out.println("You have " + wins + "wins!" );
+                System.out.println("You have " + losses + "losses!");
+                System.out.println("Thanks for playing!");
+                break;
+            }
+            else {
+                System.out.println("Not a valid response, try again.");
+            }
+        }
     }
+
+
 
     static String getHangmanArt(int incorrectGuesses) {
 
@@ -105,7 +130,6 @@ public class Main {
             System.out.println("||   0   ");
             System.out.println("||       ");
             System.out.println("||       ");
-
 
         } else if (incorrectGuesses == 2) {
             System.out.println("---------");
@@ -144,12 +168,3 @@ public class Main {
         return "";
     }
 }
-
-
-
-
-
-
-
-
-
